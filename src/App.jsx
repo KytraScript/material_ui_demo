@@ -17,6 +17,14 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
+        justifyContent: 'space-evenly'
+    },
+    textField: {
+        marginTop: 'none',
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: '20px',
+        width: 200,
     },
     card: {
         width: 500,
@@ -45,7 +53,7 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         marginTop: '18px',
-        overflow: 'hidden',
+        overflow: 'hidden !important',
     },
     cssLabel: {
         color: grey[50],
@@ -53,18 +61,25 @@ const styles = theme => ({
             color: grey[50],
         },
     },
-    cssFocused: {},
+    cssFocused: {
+        overflow: 'hidden !important',
+    },
     cssOutlinedInput: {
         '&$cssFocused $notchedOutline': {
             borderColor: grey[50],
+            overflow: 'hidden !important',
         },
     },
     notchedOutline: {
         borderWidth: '1px',
-        borderColor: 'white !important'
+        borderColor: 'white !important',
     },
     helperText: {
         color: 'red'
+    },
+    textarea: {
+        overflow: 'hidden !important',
+        color: 'white'
     }
 });
 
@@ -72,7 +87,8 @@ class Message extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            messageText: ""
+            messageText: "",
+            templateName: ""
         }
     }
 
@@ -89,16 +105,25 @@ class Message extends React.Component{
                 <div className={classes.columndiv}>
                     <CardContent>
                         <form className={classes.container} noValidate autoComplete="off">
-                        <Typography variant="h5" component="h2" className={classes.title}>
+                            <TextField
+                                id="standard-name"
+                                label="New Template Name"
+                                className={classes.textField}
+                                value={this.state.templateName}
+                                //onChange={this.handleChange('name')}
+                                margin="normal"
+                            />
+                        {/*<Typography variant="h5" component="h2" className={classes.title}>
                             Template Name Here
-                        </Typography>
+                        </Typography>*/}
                         <TextField
                             id="outlined-helperText"
                             label="SMS Message Text"
                             onChange={this.handleChange('messageText')}
                             multiline
                             required
-                            rowsMax={3}
+                            rowsMax={4}
+                            style={{'--overflow' : 'hidden !important'}}
                             /*classes={{textField: classes.textField}}*/
                             helperText={(160 - this.state.messageText.length).toString() + ' characters remaining'}
                             margin="normal"
@@ -115,6 +140,7 @@ class Message extends React.Component{
                                     root: classes.cssOutlinedInput,
                                     focused: classes.cssFocused,
                                     notchedOutline: classes.notchedOutline,
+                                    inputMultiline: classes.textarea
                                 },
                             }}
                         />
